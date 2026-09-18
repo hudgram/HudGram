@@ -11042,14 +11042,35 @@
     <string name="HudChangelogMenuRow">سجل التغييرات والتحديثات</string>
     <string name="HudChangelogMenuRowDesc">عرض كافة مميزات وتحديثات الإصدارات</string>
     <string name="HudChangelogV101Header">الإصدار 1.0.1 (قاعدة تيليجرام 12.10.3)</string>
-    <string name="HudChangelogV101SecTitle">أبرز التغييرات والمميزات في هذا التحديث</string>
-    <string name="HudChangelogV101BaseItem1">الترقية إلى أحدث قاعدة رسمية من تيليجرام (12.10.3) مع أحدث معايير الأمان والاستقرار.</string>
-    <string name="HudChangelogV101BaseItem2">دعم أحدث تأثيرات الرسائل المتحركة والمؤثرات التفاعلية الجديدة كلياً داخل المحادثات.</string>
-    <string name="HudChangelogV101BaseItem3">ترقية شاملة لمحرك القصص (Stories) ودعم أدوات التحرير والتنسيق المتقدمة للوسائط.</string>
-    <string name="HudChangelogV101BaseItem4">تسريع فائق في إرسال واستقبال الرسائل وتحميل الصور والفيديوهات والملفات في الخلفية.</string>
-    <string name="HudChangelogV101BaseItem5">تسريع فائق لمعالجة حزم الرسائل والتحديثات الفورية وتقليل استهلاك الذاكرة عبر محرك TLClassStore المحدث.</string>
-    <string name="HudChangelogV101BaseItem6">تحسينات شاملة على سرعة استجابة التطبيق وثبات الأداء على مختلف أجهزة أندرويد.</string>
-    <string name="HudChangelogV101BaseItem7">إصلاح وتوافق اهتزاز الرنين للمكالمات في الخلفية مع أحدث أنظمة أندرويد (Android 14 و 15).</string>
+    <!-- Section 1: Telegram Communities -->
+    <string name="HudChangelogV101SecCommunities">مجتمعات تيليجرام الموحدة</string>
+    <string name="HudChangelogV101Comm1">ربط ودمج القنوات والمجموعات المترابطة لمشروع أو جهة واحدة تحت مجتمع موحد ومنظم.</string>
+    <string name="HudChangelogV101Comm2">إمكانية حظر المشاغبين وحسابات السبام من كافة قنوات ومجموعات المجتمع دفعة واحدة بضغطة زر.</string>
+    <string name="HudChangelogV101Comm3">خيار تجميع محادثات المجتمع في مساحة واحدة أو فصلها لتظهر في قائمة المحادثات الرئيسية.</string>
+    <string name="HudChangelogV101Comm4">تعيين صلاحيات وأذونات إدارة دقيقة للأعضاء والمشرفين على مستوى المجتمع ككل.</string>
+    <!-- Section 2: Rich Article & Text Editor -->
+    <string name="HudChangelogV101SecEditor">المحرر المتقدم للمنشورات والمقالات</string>
+    <string name="HudChangelogV101Edit1">دعم كتابة العناوين متعددة المستويات من المستوى الأول وحتى السادس لتنسيق النصوص باحترافية.</string>
+    <string name="HudChangelogV101Edit2">تصميم الجداول التفاعلية المتقدمة مع دمج وتقسيم الخلايا وتلوينها وإضافة الصفوف والأعمدة بسهولة.</string>
+    <string name="HudChangelogV101Edit3">دعم كتابة وعرض المعادلات الرياضية والصيغ العلمية المعقدة بأعلى دقة عبر صيغ (LaTeX Math).</string>
+    <string name="HudChangelogV101Edit4">تنسيقات نصية جديدة: تمييز النصوص بلون خلفية، والنص المرتفع والمخفّض (Superscript و Subscript).</string>
+    <string name="HudChangelogV101Edit5">إضافة الكتل القابلة للطي، كتل الأكواد البرمجية، الاقتباسات، وقوائم المهام القابلة للتحديد (To-Do).</string>
+    <string name="HudChangelogV101Edit6">خاصية التراجع والإعادة (Undo و Redo) أثناء التحرير، والحفظ التلقائي لمسودات المقالات.</string>
+    <string name="HudChangelogV101Edit7">إمكانية توليد وصياغة مسودات المنشورات بمساعدة الذكاء الاصطناعي عبر الأوامر النصية المباشرة.</string>
+    <!-- Section 3: Welcome, Gifts & Chats -->
+    <string name="HudChangelogV101SecChats">رسائل الترحيب والهدايا والمحادثات</string>
+    <string name="HudChangelogV101Chat1">رسائل ترحيب تلقائية مدمجة بالأعضاء الجدد فور انضمامهم للمجموعات دون الحاجة لبوتات خارجية.</string>
+    <string name="HudChangelogV101Chat2">إرفاق رسائل تهنئة مخصصة مع إرسال الهدايا والنجوم ومعاينتها داخل الدردشة قبل تأكيد الإرسال.</string>
+    <string name="HudChangelogV101Chat3">دعم أحدث تأثيرات الرسائل المتحركة والمؤثرات التفاعلية الجديدة كلياً داخل المحادثات.</string>
+    <string name="HudChangelogV101Chat4">ترقية شاملة لمحرك القصص (Stories) ودعم أدوات التحرير والتنسيق المتقدمة للوسائط.</string>
+    <!-- Section 4: Performance & System -->
+    <string name="HudChangelogV101SecPerformance">الأداء والشبكة واستقرار النظام</string>
+    <string name="HudChangelogV101Perf1">الترقية إلى أحدث قاعدة رسمية من تيليجرام (12.10.3) مع أحدث معايير الأمان والاستقرار.</string>
+    <string name="HudChangelogV101Perf2">تسريع فائق لمعالجة حزم الرسائل والتحديثات الفورية وتقليل استهلاك الذاكرة عبر محرك TLClassStore المحدث.</string>
+    <string name="HudChangelogV101Perf3">ترقية محركات تشغيل وفك تشفير الفيديو والصوت والرسوميات وتسريع تحميل الوسائط في الخلفية.</string>
+    <string name="HudChangelogV101Perf4">تحسين ملحوظ في كفاءة استهلاك البطارية وسلاسة التمرير في المحادثات الطويلة.</string>
+    <string name="HudChangelogV101Perf5">إصلاح وتوافق اهتزاز الرنين للمكالمات في الخلفية مع أحدث أنظمة أندرويد (Android 14 و 15).</string>
+    <string name="HudChangelogV101Perf6">إصلاح وتصحيح قائمة البث الذكي إلى أجهزة التلفاز (Chromecast) في مشغل الصوتيات.</string>
     <!-- Version 1.0.0 (Launch Release Comprehensive) -->
     <string name="HudChangelogV100Header">الإصدار 1.0.0 (قاعدة تيليجرام 12.8.1)</string>
     <string name="HudChangelogV100SecAppearance">المظهر والهوية الملكية</string>

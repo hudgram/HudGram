@@ -305,14 +305,39 @@ public class HudChangelogBottomSheet extends BottomSheet {
 
         // === RELEASE 1: HUDGRAM v1.0.1 (Current Update) ===
         sb.append("## ").append(LocaleController.getString("HudChangelogV101Header", R.string.HudChangelogV101Header)).append("\n\n");
-        sb.append("### ").append(LocaleController.getString("HudChangelogV101SecTitle", R.string.HudChangelogV101SecTitle)).append("\n\n");
-        sb.append("- ").append(tagBase).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem1", R.string.HudChangelogV101BaseItem1)).append("\n");
-        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem2", R.string.HudChangelogV101BaseItem2)).append("\n");
-        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem3", R.string.HudChangelogV101BaseItem3)).append("\n");
-        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem4", R.string.HudChangelogV101BaseItem4)).append("\n");
-        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem5", R.string.HudChangelogV101BaseItem5)).append("\n");
-        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem6", R.string.HudChangelogV101BaseItem6)).append("\n");
-        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101BaseItem7", R.string.HudChangelogV101BaseItem7)).append("\n\n");
+
+        // 1. Telegram Communities
+        sb.append("### ").append(LocaleController.getString("HudChangelogV101SecCommunities", R.string.HudChangelogV101SecCommunities)).append("\n\n");
+        sb.append("- ").append(tagBase).append(" ").append(LocaleController.getString("HudChangelogV101Comm1", R.string.HudChangelogV101Comm1)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Comm2", R.string.HudChangelogV101Comm2)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Comm3", R.string.HudChangelogV101Comm3)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Comm4", R.string.HudChangelogV101Comm4)).append("\n\n");
+
+        // 2. Rich Article & Text Editor
+        sb.append("### ").append(LocaleController.getString("HudChangelogV101SecEditor", R.string.HudChangelogV101SecEditor)).append("\n\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit1", R.string.HudChangelogV101Edit1)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit2", R.string.HudChangelogV101Edit2)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit3", R.string.HudChangelogV101Edit3)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit4", R.string.HudChangelogV101Edit4)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit5", R.string.HudChangelogV101Edit5)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Edit6", R.string.HudChangelogV101Edit6)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Edit7", R.string.HudChangelogV101Edit7)).append("\n\n");
+
+        // 3. Welcome, Gifts & Chats
+        sb.append("### ").append(LocaleController.getString("HudChangelogV101SecChats", R.string.HudChangelogV101SecChats)).append("\n\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Chat1", R.string.HudChangelogV101Chat1)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Chat2", R.string.HudChangelogV101Chat2)).append("\n");
+        sb.append("- ").append(tagAdd).append(" ").append(LocaleController.getString("HudChangelogV101Chat3", R.string.HudChangelogV101Chat3)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Chat4", R.string.HudChangelogV101Chat4)).append("\n\n");
+
+        // 4. Performance & System
+        sb.append("### ").append(LocaleController.getString("HudChangelogV101SecPerformance", R.string.HudChangelogV101SecPerformance)).append("\n\n");
+        sb.append("- ").append(tagBase).append(" ").append(LocaleController.getString("HudChangelogV101Perf1", R.string.HudChangelogV101Perf1)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Perf2", R.string.HudChangelogV101Perf2)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Perf3", R.string.HudChangelogV101Perf3)).append("\n");
+        sb.append("- ").append(tagImprove).append(" ").append(LocaleController.getString("HudChangelogV101Perf4", R.string.HudChangelogV101Perf4)).append("\n");
+        sb.append("- ").append(tagFix).append(" ").append(LocaleController.getString("HudChangelogV101Perf5", R.string.HudChangelogV101Perf5)).append("\n");
+        sb.append("- ").append(tagFix).append(" ").append(LocaleController.getString("HudChangelogV101Perf6", R.string.HudChangelogV101Perf6)).append("\n\n");
 
         sb.append("---\n\n");
 

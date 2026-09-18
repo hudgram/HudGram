@@ -11226,14 +11226,35 @@
     <string name="HudChangelogMenuRow">Changelog &amp; Updates</string>
     <string name="HudChangelogMenuRowDesc">View all version features and updates</string>
     <string name="HudChangelogV101Header">Version 1.0.1 (Telegram Base 12.10.3)</string>
-    <string name="HudChangelogV101SecTitle">Key Changes &amp; New Features</string>
-    <string name="HudChangelogV101BaseItem1">Full upgrade to the latest official Telegram base (12.10.3) with modern security and stability.</string>
-    <string name="HudChangelogV101BaseItem2">Support for the latest animated message effects and interactive reactions in chats.</string>
-    <string name="HudChangelogV101BaseItem3">Complete overhaul of the Stories engine with advanced editing and formatting tools.</string>
-    <string name="HudChangelogV101BaseItem4">Blazing fast messaging performance and background media downloading.</string>
-    <string name="HudChangelogV101BaseItem5">Supercharged message packet deserialization and memory efficiency with the updated TLClassStore engine.</string>
-    <string name="HudChangelogV101BaseItem6">Comprehensive optimizations for app responsiveness and performance across Android devices.</string>
-    <string name="HudChangelogV101BaseItem7">Fixed background call vibration compatibility on modern Android systems (Android 14 &amp; 15).</string>
+    <!-- Section 1: Telegram Communities -->
+    <string name="HudChangelogV101SecCommunities">Telegram Communities</string>
+    <string name="HudChangelogV101Comm1">Group related channels and chats into unified communities under a single umbrella.</string>
+    <string name="HudChangelogV101Comm2">Moderation tools to ban troublemakers and spammers from all community chats at once.</string>
+    <string name="HudChangelogV101Comm3">Control community layout by grouping chats in one space or displaying them separately.</string>
+    <string name="HudChangelogV101Comm4">Dedicated roles and permissions for administrators and members across the entire community.</string>
+    <!-- Section 2: Rich Article & Text Editor -->
+    <string name="HudChangelogV101SecEditor">Rich Article &amp; Text Editor</string>
+    <string name="HudChangelogV101Edit1">Multi-level headings support (Heading 1 through 6) for professional text formatting.</string>
+    <string name="HudChangelogV101Edit2">Interactive tables with cell merge, split, color highlights, and easy row/column management.</string>
+    <string name="HudChangelogV101Edit3">Full support for rendering advanced LaTeX mathematical equations and scientific formulas.</string>
+    <string name="HudChangelogV101Edit4">New typography options: text background highlight, superscript, and subscript.</string>
+    <string name="HudChangelogV101Edit5">Collapsible toggle blocks, formatted code blocks, pull quotes, and to-do checklists.</string>
+    <string name="HudChangelogV101Edit6">Undo and Redo editing history support, with automatic draft saving to prevent text loss.</string>
+    <string name="HudChangelogV101Edit7">AI-assisted drafting to generate and refine articles and posts using text prompts.</string>
+    <!-- Section 3: Welcome, Gifts & Chats -->
+    <string name="HudChangelogV101SecChats">Welcome Messages, Gifts &amp; Chats</string>
+    <string name="HudChangelogV101Chat1">Native automated welcome messages for new group members without requiring external bots.</string>
+    <string name="HudChangelogV101Chat2">Attach personal notes when sending gifts and Stars, with full preview and privacy options.</string>
+    <string name="HudChangelogV101Chat3">Latest animated message effects and interactive reactions inside conversations.</string>
+    <string name="HudChangelogV101Chat4">Comprehensive update to the Stories engine with advanced media editing and formatting tools.</string>
+    <!-- Section 4: Performance & System -->
+    <string name="HudChangelogV101SecPerformance">Performance, Network &amp; System Stability</string>
+    <string name="HudChangelogV101Perf1">Full upgrade to the latest official Telegram base (12.10.3) with modern security and stability.</string>
+    <string name="HudChangelogV101Perf2">Supercharged message packet deserialization and memory efficiency with the updated TLClassStore engine.</string>
+    <string name="HudChangelogV101Perf3">Upgraded multimedia codecs and renderers with faster background media downloading.</string>
+    <string name="HudChangelogV101Perf4">Noticeable improvement in battery efficiency and ultra-smooth scrolling in long chats.</string>
+    <string name="HudChangelogV101Perf5">Fixed background call vibration compatibility on modern Android systems (Android 14 &amp; 15).</string>
+    <string name="HudChangelogV101Perf6">Corrected smart TV casting (Chromecast) menu options in the audio player.</string>
     <!-- Version 1.0.0 (Launch Release Comprehensive) -->
     <string name="HudChangelogV100Header">Version 1.0.0 (Telegram Base 12.8.1)</string>
     <string name="HudChangelogV100SecAppearance">Appearance &amp; Royal Golden Identity</string>
