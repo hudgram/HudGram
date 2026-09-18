@@ -70,7 +70,7 @@ public class HudNotificationsSettingsActivity extends BaseHudSettingsActivity {
                         NotificationsController.getInstance(i).loadNotificationColors();
                     }
                     BulletinFactory.of(this).createSimpleBulletin(
-                            R.drawable.notification,
+                            R.raw.contact_check,
                             LocaleController.getString("NotificationColorApplied", R.string.NotificationColorApplied)
                     ).show();
                 });

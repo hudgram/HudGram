@@ -74,6 +74,8 @@ public class HudScheduledMessagesActivity extends BaseHudSettingsActivity {
         menu.addItem(2, R.drawable.msg_info);
 
         actionBarSwitch = new Switch(context);
+        actionBarSwitch.setClickable(false);
+        actionBarSwitch.setFocusable(false);
         actionBarSwitch.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
         actionBarSwitch.setChecked(HudConfig.scheduledMessagesEnabled, false);
         actionBarSwitch.setOnCheckedChangeListener((view, isChecked) -> {
@@ -82,7 +84,7 @@ public class HudScheduledMessagesActivity extends BaseHudSettingsActivity {
                 updateFabVisibility();
                 listView.adapter.update(true);
                 BulletinFactory.of(this).createSimpleBulletin(
-                    isChecked ? R.drawable.msg_saved : R.drawable.msg_close,
+                    isChecked ? R.raw.contact_check : R.raw.error,
                     getString(isChecked ? "HudScheduledMessagesEnabled" : "HudScheduledMessagesDisabled")
                 ).show();
             }
@@ -202,7 +204,7 @@ public class HudScheduledMessagesActivity extends BaseHudSettingsActivity {
         } else if (item.id == logClearRow) {
             HudScheduledMessagesManager.clearLog();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudScheduledMessagesHistoryCleared")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudScheduledMessagesHistoryCleared")).show();
         }
     }
 
@@ -217,7 +219,7 @@ public class HudScheduledMessagesActivity extends BaseHudSettingsActivity {
             HudScheduledMessagesManager.deleteScheduledMessage(getParentActivity(), target.id);
             loadMessages();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudScheduledMessagesDeleted")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudScheduledMessagesDeleted")).show();
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 

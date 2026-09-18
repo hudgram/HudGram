@@ -1,9 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        maven {
+            url 'https://developer.huawei.com/repo/'
+            content {
+                includeGroupByRegex 'com\\.huawei\\..*'
+            }
+        }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         mavenCentral()
-        google()
-        maven { url 'https://developer.huawei.com/repo/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.10.1'
@@ -14,10 +19,21 @@ buildscript {
     }
 }
 repositories {
-    google()
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    mavenCentral()
 }
 
 allprojects {
+    repositories {
+        maven {
+            url 'https://developer.huawei.com/repo/'
+            content {
+                includeGroupByRegex 'com\\.huawei\\..*'
+            }
+        }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        mavenCentral()
+    }
     if (rootProject.file("local.properties").exists()) {
         Properties localProperties = new Properties()
         localProperties.load(rootProject.file("local.properties").newDataInputStream())
@@ -40,8 +56,18 @@ allprojects {
 subprojects {
     plugins.withId('com.android.application') {
         android {
+            buildFeatures {
+                buildConfig = true
+            }
             androidResources {
                 ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~:!optional:!licences:!*stmary*:!*eufb*'
+            }
+        }
+    }
+    plugins.withId('com.android.library') {
+        android {
+            buildFeatures {
+                buildConfig = true
             }
         }
     }

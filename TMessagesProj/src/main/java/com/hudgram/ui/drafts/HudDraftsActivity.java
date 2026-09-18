@@ -72,7 +72,7 @@ public class HudDraftsActivity extends BaseHudSettingsActivity {
                 }
                 listView.adapter.update(true);
                 BulletinFactory.of(this).createSimpleBulletin(
-                    isChecked ? R.drawable.msg_saved : R.drawable.msg_close,
+                    isChecked ? R.raw.contact_check : R.raw.error,
                     getString(isChecked ? "HudDraftsEnabled" : "HudDraftsDisabled")
                 ).show();
             }
@@ -276,7 +276,7 @@ public class HudDraftsActivity extends BaseHudSettingsActivity {
         tabsView.updateTabs();
         listView.adapter.update(true);
 
-        BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_send, getString("HudDraftsSendSuccess")).show();
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.forward, getString("HudDraftsSendSuccess")).show();
     }
 
     private void copyDraftText(long dialogId) {
@@ -330,7 +330,7 @@ public class HudDraftsActivity extends BaseHudSettingsActivity {
             }
             tabsView.updateTabs();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudDraftsClearAllSuccess")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudDraftsClearAllSuccess")).show();
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 

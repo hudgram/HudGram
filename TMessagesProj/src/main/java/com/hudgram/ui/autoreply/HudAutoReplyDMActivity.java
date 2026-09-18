@@ -57,6 +57,8 @@ public class HudAutoReplyDMActivity extends BaseHudSettingsActivity {
         menu.addItem(2, R.drawable.msg_info);
 
         actionBarSwitch = new Switch(context);
+        actionBarSwitch.setClickable(false);
+        actionBarSwitch.setFocusable(false);
         actionBarSwitch.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
         actionBarSwitch.setChecked(HudConfig.autoReplyDMEnabled, false);
         actionBarSwitch.setOnCheckedChangeListener((view, isChecked) -> {
@@ -64,6 +66,10 @@ public class HudAutoReplyDMActivity extends BaseHudSettingsActivity {
                 HudConfig.toggleAutoReplyDMEnabled();
                 updateFabVisibility();
                 listView.adapter.update(true);
+                BulletinFactory.of(this).createSimpleBulletin(
+                    isChecked ? R.raw.contact_check : R.raw.error,
+                    getString(isChecked ? "HudAutoReplyDMEnabled" : "HudAutoReplyDMDisabledBanner")
+                ).show();
             }
         });
 
@@ -193,7 +199,7 @@ public class HudAutoReplyDMActivity extends BaseHudSettingsActivity {
                 HudConfig.addAutoReplyDMRule(copy);
                 rules = HudConfig.getAutoReplyDMRules();
                 listView.adapter.update(true);
-                BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplyDMSaved")).show();
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplyDMSaved")).show();
             } else if (which == 2) {
                 // Delete confirmation
                 AlertDialog.Builder deleteBuilder = new AlertDialog.Builder(getParentActivity());
@@ -202,7 +208,7 @@ public class HudAutoReplyDMActivity extends BaseHudSettingsActivity {
                     HudConfig.deleteAutoReplyDMRule(rule.id);
                     rules = HudConfig.getAutoReplyDMRules();
                     listView.adapter.update(true);
-                    BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudAutoReplyDMDeleted")).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudAutoReplyDMDeleted")).show();
                 });
                 deleteBuilder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(deleteBuilder.create());
@@ -310,9 +316,6 @@ public class HudAutoReplyDMActivity extends BaseHudSettingsActivity {
                 }
             });
 
-            enableSwitch.setOnClickListener(v -> {
-                enableSwitch.setChecked(!enableSwitch.isChecked(), true);
-            });
 
             setWillNotDraw(false);
         }

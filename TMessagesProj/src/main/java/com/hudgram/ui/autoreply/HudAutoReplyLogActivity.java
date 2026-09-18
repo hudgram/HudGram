@@ -74,7 +74,7 @@ public class HudAutoReplyLogActivity extends BaseHudSettingsActivity {
             HudConfig.clearAutoReplyLog();
             logEntries.clear();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudAutoReplyLogCleared")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudAutoReplyLogCleared")).show();
         } else if (item.id >= 100) {
             int index = item.id - 100;
             if (index >= 0 && index < logEntries.size()) {

@@ -98,10 +98,35 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }
 
+// API Keys
+def getAppId() {
+    File keysFile = rootProject.file("API_KEYS")
+    if (keysFile.exists()) {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(keysFile.absolutePath))
+        return properties.get("APP_ID")
+    }
+    return "4"
+}
+
+def getAppHash() {
+    File keysFile = rootProject.file("API_KEYS")
+    if (keysFile.exists()) {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(keysFile.absolutePath))
+        return "\"" + properties.get("APP_HASH") + "\""
+    }
+    return "\"014b35b6184100b085b0d0572f9b5103\""
+}
+
 android {
     compileSdkVersion 36
     buildToolsVersion '36.0.0'
     ndkVersion "27.2.12479018"
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
 
@@ -140,6 +165,12 @@ android {
                 targets 'tmessages.49'
             }
         }
+
+        buildConfigField "String", "APP_PACKAGE", "\"" + APP_PACKAGE + "\""
+        buildConfigField "int", "APP_VERSION_CODE", "" + APP_VERSION_CODE
+        buildConfigField "String", "APP_VERSION_NAME", "\"" + APP_VERSION_NAME + "\""
+        buildConfigField "int", "APP_ID", getAppId()
+        buildConfigField "String", "APP_HASH", getAppHash()
     }
 
     buildTypes {

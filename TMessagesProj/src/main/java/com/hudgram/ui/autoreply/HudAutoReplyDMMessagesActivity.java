@@ -175,10 +175,10 @@ public class HudAutoReplyDMMessagesActivity extends BaseHudSettingsActivity {
             if (!TextUtils.isEmpty(text)) {
                 if (isEdit) {
                     messages.set(index, text);
-                    BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplyMessageUpdated")).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplyMessageUpdated")).show();
                 } else {
                     messages.add(text);
-                    BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplyMessageAdded")).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplyMessageAdded")).show();
                 }
                 notifyParent();
                 listView.adapter.update(true);
@@ -205,7 +205,7 @@ public class HudAutoReplyDMMessagesActivity extends BaseHudSettingsActivity {
             messages.remove(index);
             notifyParent();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudAutoReplyMessageDeleted")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudAutoReplyMessageDeleted")).show();
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         AlertDialog dialog = builder.create();

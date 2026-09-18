@@ -2,9 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.huawei.agconnect'
 
 repositories {
+    maven {
+        url 'https://developer.huawei.com/repo/'
+        content {
+            includeGroupByRegex 'com\\.huawei\\..*'
+        }
+    }
     mavenCentral()
-    google()
-    maven { url 'https://developer.huawei.com/repo/' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
 }
 
 configurations {

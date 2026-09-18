@@ -58,6 +58,12 @@ public abstract class BaseHudSettingsActivity extends BaseFragment {
 
     protected static final Object PARTIAL = new Object();
 
+    static {
+        UItem.UItemFactory.setup(new TextSettingsCellFactory());
+        UItem.UItemFactory.setup(new TextDetailSettingsCellFactory());
+        UItem.UItemFactory.setup(new TextCheckbox2CellFactory());
+    }
+
     protected SizeNotifierFrameLayout contentView;
     protected UniversalRecyclerView listView;
     protected LinearLayoutManager layoutManager;
@@ -812,6 +818,7 @@ public abstract class BaseHudSettingsActivity extends BaseFragment {
         }
 
         public static UItem of(int id, CharSequence title, CharSequence value) {
+            setup(new TextSettingsCellFactory());
             UItem item = UItem.ofFactory(TextSettingsCellFactory.class);
             item.id = id;
             item.text = title;
@@ -820,6 +827,7 @@ public abstract class BaseHudSettingsActivity extends BaseFragment {
         }
 
         public static UItem of(int id, CharSequence title, CharSequence value, int iconResId, int iconColor) {
+            setup(new TextSettingsCellFactory());
             UItem item = UItem.ofFactory(TextSettingsCellFactory.class);
             item.id = id;
             item.text = title;
@@ -849,6 +857,7 @@ public abstract class BaseHudSettingsActivity extends BaseFragment {
         }
 
         public static UItem of(int id, CharSequence title, CharSequence subtitle) {
+            setup(new TextDetailSettingsCellFactory());
             UItem item = UItem.ofFactory(TextDetailSettingsCellFactory.class);
             item.id = id;
             item.text = title;
@@ -878,6 +887,7 @@ public abstract class BaseHudSettingsActivity extends BaseFragment {
         }
 
         public static UItem of(int id, CharSequence title) {
+            setup(new TextCheckbox2CellFactory());
             UItem item = UItem.ofFactory(TextCheckbox2CellFactory.class);
             item.id = id;
             item.text = title;

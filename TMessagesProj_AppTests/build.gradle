@@ -4,7 +4,7 @@ apply plugin: 'test-generator'
 
 repositories {
     mavenCentral()
-    google()
+    maven { url 'https://maven.aliyun.com/repository/google' }
 }
 
 configurations {

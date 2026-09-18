@@ -195,6 +195,11 @@ public class HudAboutActivity extends BaseFragment {
         linksHeader.setText(LocaleController.getString("AboutHudgramLinks", R.string.AboutHudgramLinks));
         linksCard.addView(linksHeader, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
+        TextSettingsCell l0 = new TextSettingsCell(context, resourceProvider);
+        l0.setTextAndIcon(LocaleController.getString("HudChangelogMenuRow", R.string.HudChangelogMenuRow), R.drawable.msg_customize, true);
+        l0.setOnClickListener(v -> com.hudgram.ui.changelog.HudChangelogBottomSheet.show(getParentActivity()));
+        linksCard.addView(l0, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
         TextSettingsCell l1 = new TextSettingsCell(context, resourceProvider);
         l1.setTextAndIcon(LocaleController.getString("HudOfficialChannel", R.string.HudOfficialChannel), R.drawable.msg_channel, true);
         l1.setOnClickListener(v -> Browser.openUrl(getParentActivity(), BuildVars.HUDGRAM_CHANNEL_URL));

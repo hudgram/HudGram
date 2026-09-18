@@ -108,7 +108,7 @@ public class HudOtherSettingsActivity extends BaseHudSettingsActivity {
         if (getParentActivity() == null) return;
         String json = HudConfig.exportBackup();
         if (json == null) {
-            org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_block2, getString("ExportError")).show();
+            org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString("ExportError")).show();
             return;
         }
         backupJsonToSave = json;
@@ -120,7 +120,7 @@ public class HudOtherSettingsActivity extends BaseHudSettingsActivity {
             startActivityForResult(intent, 103);
         } catch (Exception e) {
             org.telegram.messenger.FileLog.e(e);
-            org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_block2, getString("ExportError")).show();
+            org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString("ExportError")).show();
         }
     }
 
@@ -151,16 +151,16 @@ public class HudOtherSettingsActivity extends BaseHudSettingsActivity {
                 inputStream.close();
                 boolean success = HudConfig.importBackup(stringBuilder.toString());
                 if (success) {
-                    org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_check_s, getString("ImportSuccess")).show();
+                    org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("ImportSuccess")).show();
                     if (listView != null && listView.adapter != null) {
                         listView.adapter.update(true);
                     }
                 } else {
-                    org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_block2, getString("ImportError")).show();
+                    org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString("ImportError")).show();
                 }
             } catch (Exception e) {
                 org.telegram.messenger.FileLog.e(e);
-                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_block2, getString("ImportError")).show();
+                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString("ImportError")).show();
             }
         } else if (requestCode == 103 && resultCode == android.app.Activity.RESULT_OK && data != null && data.getData() != null) {
             if (backupJsonToSave == null) return;
@@ -169,10 +169,10 @@ public class HudOtherSettingsActivity extends BaseHudSettingsActivity {
                 java.io.OutputStream outputStream = getParentActivity().getContentResolver().openOutputStream(uri);
                 outputStream.write(backupJsonToSave.getBytes("UTF-8"));
                 outputStream.close();
-                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_check_s, getString("ExportSuccess")).show();
+                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("ExportSuccess")).show();
             } catch (Exception e) {
                 org.telegram.messenger.FileLog.e(e);
-                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_block2, getString("ExportError")).show();
+                org.telegram.ui.Components.BulletinFactory.of(this).createSimpleBulletin(R.raw.error, getString("ExportError")).show();
             } finally {
                 backupJsonToSave = null;
             }

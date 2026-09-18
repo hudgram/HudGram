@@ -148,7 +148,7 @@ public class HudAutoReplyDMAddActivity extends BaseHudSettingsActivity {
         } else {
             HudConfig.addAutoReplyDMRule(rule);
         }
-        BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplyDMSaved")).show();
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplyDMSaved")).show();
         finishFragment();
     }
 

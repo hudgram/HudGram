@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
-    google()
+    maven { url 'https://maven.aliyun.com/repository/google' }
 }
 
 configurations {
@@ -23,6 +23,10 @@ dependencies {
 android {
     compileSdkVersion 36
     buildToolsVersion '36.0.0'
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig.applicationId = APP_PACKAGE
 

@@ -542,7 +542,7 @@ public class HudScheduledMessageAddActivity extends BaseHudSettingsActivity {
                 String currentText = messageEdit.getText().toString().trim();
                 if (!TextUtils.isEmpty(currentText)) {
                     HudScheduledMessagesManager.addTemplate(currentText);
-                    BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudScheduledMessagesTemplateSaved")).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudScheduledMessagesTemplateSaved")).show();
                 } else {
                     BulletinFactory.of(this).createErrorBulletin(getString("HudScheduledMessagesFillFields")).show();
                 }
@@ -564,7 +564,7 @@ public class HudScheduledMessageAddActivity extends BaseHudSettingsActivity {
                         confirm.setTitle(getString("HudScheduledMessagesTemplateDeleteConfirm"));
                         confirm.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), (d, w) -> {
                             HudScheduledMessagesManager.deleteTemplate(selectedTemplate);
-                            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudScheduledMessagesTemplateDeleted")).show();
+                            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudScheduledMessagesTemplateDeleted")).show();
                         });
                         confirm.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                         showDialog(confirm.create());
@@ -699,7 +699,7 @@ public class HudScheduledMessageAddActivity extends BaseHudSettingsActivity {
 
         HudScheduledMessagesManager.addScheduledMessage(getParentActivity(), msg);
 
-        BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudScheduledMessagesAdded")).show();
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudScheduledMessagesAdded")).show();
         finishFragment();
     }
 

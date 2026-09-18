@@ -2985,59 +2985,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             boolean allowReadCallLog = true;
             boolean allowReadPhoneNumbers = true;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && simcardAvailable) {
-                allowCall = getParentActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
-                allowCancelCall = getParentActivity().checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
-                allowReadCallLog = Build.VERSION.SDK_INT < Build.VERSION_CODES.P || getParentActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    allowReadPhoneNumbers = getParentActivity().checkSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED;
-                }
-                if (checkPermissions) {
-                    permissionsItems.clear();
-                    if (!allowCall) {
-                        permissionsItems.add(Manifest.permission.READ_PHONE_STATE);
-                    }
-                    if (!allowCancelCall) {
-                        permissionsItems.add(Manifest.permission.CALL_PHONE);
-                    }
-                    if (!allowReadCallLog) {
-                        permissionsItems.add(Manifest.permission.READ_CALL_LOG);
-                    }
-                    if (!allowReadPhoneNumbers && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        permissionsItems.add(Manifest.permission.READ_PHONE_NUMBERS);
-                    }
-                    if (!permissionsItems.isEmpty()) {
-                        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
-                        if (preferences.getBoolean("firstlogin", true) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_CALL_LOG)) {
-                            preferences.edit().putBoolean("firstlogin", false).commit();
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-
-                            builder.setPositiveButton(getString("Continue", R.string.Continue), null);
-                            int resId;
-                            if (!allowCall && (!allowCancelCall || !allowReadCallLog)) {
-                                builder.setMessage(getString("AllowReadCallAndLog", R.string.AllowReadCallAndLog));
-                                resId = R.raw.calls_log;
-                            } else if (!allowCancelCall || !allowReadCallLog) {
-                                builder.setMessage(getString("AllowReadCallLog", R.string.AllowReadCallLog));
-                                resId = R.raw.calls_log;
-                            } else {
-                                builder.setMessage(getString("AllowReadCall", R.string.AllowReadCall));
-                                resId = R.raw.incoming_calls;
-                            }
-                            builder.setTopAnimation(resId, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
-                            permissionsDialog = showDialog(builder.create());
-                            confirmedNumber = true;
-                        } else {
-                            try {
-                                getParentActivity().requestPermissions(permissionsItems.toArray(new String[0]), 6);
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                        }
-                        return;
-                    }
-                }
-            }
 
             if (countryState == COUNTRY_STATE_EMPTY) {
                 needShowAlert(getString(R.string.RestorePasswordNoEmailTitle), getString("ChooseCountry", R.string.ChooseCountry));

@@ -79,7 +79,7 @@ public class HudScheduledMessagesLogActivity extends BaseHudSettingsActivity {
             HudScheduledMessagesManager.clearLog();
             logEntries.clear();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudScheduledMessagesHistoryCleared")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudScheduledMessagesHistoryCleared")).show();
         }
     }
 

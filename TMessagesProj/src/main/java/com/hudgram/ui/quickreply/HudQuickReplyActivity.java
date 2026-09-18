@@ -66,13 +66,15 @@ public class HudQuickReplyActivity extends BaseHudSettingsActivity {
         ActionBarMenu menu = actionBar.createMenu();
 
         Switch switchView = new Switch(context);
+        switchView.setClickable(false);
+        switchView.setFocusable(false);
         switchView.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
         switchView.setChecked(HudConfig.quickReplyEnabled, false);
         switchView.setOnCheckedChangeListener((view, isChecked) -> {
             if (HudConfig.quickReplyEnabled != isChecked) {
                 HudConfig.toggleQuickReplyEnabled();
                 BulletinFactory.of(this).createSimpleBulletin(
-                    isChecked ? R.drawable.msg_saved : R.drawable.msg_close,
+                    isChecked ? R.raw.contact_check : R.raw.error,
                     getString(isChecked ? "HudQuickReplyEnabled" : "HudQuickReplyDisabled")
                 ).show();
             }
@@ -239,7 +241,7 @@ public class HudQuickReplyActivity extends BaseHudSettingsActivity {
                 exitEditMode();
                 listView.adapter.update(true);
 
-                BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudQuickReplyUpdated")).show();
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudQuickReplyUpdated")).show();
             } else {
                 // Add new item
                 final String finalLabel = label;
@@ -259,7 +261,7 @@ public class HudQuickReplyActivity extends BaseHudSettingsActivity {
 
                 listView.adapter.update(true);
 
-                BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudQuickReplyAdded")).show();
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudQuickReplyAdded")).show();
             }
 
             // Dismiss keyboard after add/save
@@ -391,7 +393,7 @@ public class HudQuickReplyActivity extends BaseHudSettingsActivity {
             }
 
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudQuickReplyDeleted")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudQuickReplyDeleted")).show();
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 

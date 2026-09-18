@@ -28,7 +28,7 @@ public class BuildVars {
     public static final String APP_PACKAGE = BuildConfig.APP_PACKAGE;
     public static final int APP_VERSION_CODE = BuildConfig.APP_VERSION_CODE;
     public static final String APP_VERSION_NAME = BuildConfig.APP_VERSION_NAME;
-    public static final String HUD_VERSION = "1.0.0";
+    public static final String HUD_VERSION = "1.0.1";
     public static final String HUDGRAM_CHANNEL_URL = "https://t.me/hudgramchannel";
     public static final String HUDGRAM_SUPPORT_URL = "https://t.me/hudgramsupport";
     public static final String HUDGRAM_SOURCE_URL = "https://github.com/hudgram/HudGram";

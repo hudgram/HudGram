@@ -7083,6 +7083,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         if (!onlySelect && folderId == 0 && communityId == 0) {
             getMediaDataController().checkStickers(MediaDataController.TYPE_EMOJI);
+            AndroidUtilities.runOnUIThread(() -> {
+                if (getParentActivity() != null && !getParentActivity().isFinishing()) {
+                    com.hudgram.ui.changelog.HudChangelogBottomSheet.showIfNeeded(getParentActivity());
+                }
+            }, 600);
         }
         if (searchViewPager != null) {
             searchViewPager.onResume();

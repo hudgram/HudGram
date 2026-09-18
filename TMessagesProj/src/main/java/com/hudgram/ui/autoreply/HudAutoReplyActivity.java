@@ -108,12 +108,18 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         menu.addItem(2, R.drawable.msg_info);
 
         actionBarSwitch = new Switch(context);
+        actionBarSwitch.setClickable(false);
+        actionBarSwitch.setFocusable(false);
         actionBarSwitch.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
         actionBarSwitch.setChecked(HudConfig.autoReplyMentionEnabled, false);
         actionBarSwitch.setOnCheckedChangeListener((view, isChecked) -> {
             if (HudConfig.autoReplyMentionEnabled != isChecked) {
                 HudConfig.toggleAutoReplyMentionEnabled();
                 listView.adapter.update(true);
+                BulletinFactory.of(this).createSimpleBulletin(
+                    isChecked ? R.raw.contact_check : R.raw.error,
+                    getString("HudAutoReplyMentionEnabled")
+                ).show();
             }
         });
 
@@ -283,7 +289,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         } else if (id == logClearRow) {
             HudConfig.clearAutoReplyLog();
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_delete, getString("HudAutoReplyLogCleared")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.ic_delete, getString("HudAutoReplyLogCleared")).show();
         }
     }
 
@@ -300,7 +306,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         builder.setItems(modeItems, (dialog, which) -> {
             HudConfig.setAutoReplyMode(which);
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
         });
         showDialog(builder.create());
     }
@@ -315,7 +321,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         builder.setItems(items, (dialog, which) -> {
             HudConfig.setAutoReplyMentionCooldown(cooldownValues[which]);
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
         });
         showDialog(builder.create());
     }
@@ -330,7 +336,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         builder.setItems(items, (dialog, which) -> {
             HudConfig.setAutoReplyCooldownMode(which);
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
         });
         showDialog(builder.create());
     }
@@ -346,7 +352,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
         builder.setItems(items, (dialog, which) -> {
             HudConfig.setAutoReplyFilterMode(which);
             listView.adapter.update(true);
-            BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
         });
         showDialog(builder.create());
     }
@@ -408,7 +414,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
             String text = editText.getText().toString().trim();
             if (!TextUtils.isEmpty(text)) {
                 callback.onSave(text);
-                BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
             }
         });
 
@@ -438,7 +444,7 @@ public class HudAutoReplyActivity extends BaseHudSettingsActivity {
                     int hour = time / 60;
                     int minute = time % 60;
                     callback.onTimePicked(hour, minute);
-                    BulletinFactory.of(this).createSimpleBulletin(R.drawable.msg_saved, getString("HudAutoReplySaved")).show();
+                    BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, getString("HudAutoReplySaved")).show();
                 }
         );
     }
