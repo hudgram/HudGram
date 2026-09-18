@@ -11225,15 +11225,15 @@
     <string name="HudChangelogTagBase">BASE</string>
     <string name="HudChangelogMenuRow">Changelog &amp; Updates</string>
     <string name="HudChangelogMenuRowDesc">View all version features and updates</string>
-    <string name="HudChangelogV101Header">Version 1.0.1 (Telegram Base 12.10.1)</string>
+    <string name="HudChangelogV101Header">Version 1.0.1 (Telegram Base 12.10.3)</string>
     <string name="HudChangelogV101SecTitle">Key Changes &amp; New Features</string>
-    <string name="HudChangelogV101BaseItem1">Full upgrade to the latest official Telegram base (12.10.1) with modern security and stability.</string>
+    <string name="HudChangelogV101BaseItem1">Full upgrade to the latest official Telegram base (12.10.3) with modern security and stability.</string>
     <string name="HudChangelogV101BaseItem2">Support for the latest animated message effects and interactive reactions in chats.</string>
     <string name="HudChangelogV101BaseItem3">Complete overhaul of the Stories engine with advanced editing and formatting tools.</string>
     <string name="HudChangelogV101BaseItem4">Blazing fast messaging performance and background media downloading.</string>
-    <string name="HudChangelogV101BaseItem5">Noticeable efficiency in battery and memory consumption with ultra-smooth scrolling.</string>
+    <string name="HudChangelogV101BaseItem5">Supercharged message packet deserialization and memory efficiency with the updated TLClassStore engine.</string>
     <string name="HudChangelogV101BaseItem6">Comprehensive optimizations for app responsiveness and performance across Android devices.</string>
-    <string name="HudChangelogV101BaseItem7">Full compatibility with the latest Android system updates for a seamless user experience.</string>
+    <string name="HudChangelogV101BaseItem7">Fixed background call vibration compatibility on modern Android systems (Android 14 &amp; 15).</string>
     <!-- Version 1.0.0 (Launch Release Comprehensive) -->
     <string name="HudChangelogV100Header">Version 1.0.0 (Telegram Base 12.8.1)</string>
     <string name="HudChangelogV100SecAppearance">Appearance &amp; Royal Golden Identity</string>
