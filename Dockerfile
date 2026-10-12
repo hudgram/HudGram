@@ -1,4 +1,4 @@
-FROM gradle:8.11.1-jdk17
+FROM gradle:8.11.1-jdk21
 
 USER root
 

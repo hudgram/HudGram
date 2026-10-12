@@ -65,8 +65,8 @@ jobs:
           push: false
           load: true
           tags: hudgram-builder:local
-          cache-from: type=gha,scope=docker-hudgram-v1
-          cache-to: type=gha,mode=max,scope=docker-hudgram-v1
+          cache-from: type=gha,scope=docker-hudgram-v2
+          cache-to: type=gha,mode=max,scope=docker-hudgram-v2
 
       - name: Validate and decode signing keystore
         env:
