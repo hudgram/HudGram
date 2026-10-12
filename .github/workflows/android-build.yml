@@ -69,25 +69,30 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install Android SDK Components (Platforms, Build Tools, NDK, CMake)
         run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
-          
+          SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          if [ -x "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SDKMANAGER="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
+          else
+            SDKMANAGER=$(which sdkmanager)
+          fi
+
+          echo "Using sdkmanager: $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+
           PACKAGES="platforms;android-${{ steps.versions.outputs.compile_sdk }} build-tools;${{ steps.versions.outputs.build_tools }}"
-          
+
           if [ -n "${{ steps.versions.outputs.cmake_version }}" ]; then
             PACKAGES="$PACKAGES cmake;${{ steps.versions.outputs.cmake_version }}"
           fi
-          
+
           if [ -n "${{ steps.versions.outputs.ndk_version }}" ]; then
             PACKAGES="$PACKAGES ndk;${{ steps.versions.outputs.ndk_version }}"
           fi
-          
+
           echo "Installing SDK components: $PACKAGES"
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" $PACKAGES
+          "$SDKMANAGER" $PACKAGES
 
       - name: Prepare build environment
         run: |
