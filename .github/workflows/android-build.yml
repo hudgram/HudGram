@@ -14,8 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository with Submodules
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Extract Versions from Project Configurations
         id: versions
