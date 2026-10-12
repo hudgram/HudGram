@@ -1,0 +1,33 @@
+# Version control internals (keep source files intact)
+.git/
+.gitignore
+
+# Secrets and private credentials
+*.jks
+*.keystore
+hudgram_keystore
+local.properties
+*.pem
+*.p12
+
+# Gradle and build outputs
+.gradle/
+.gradle_cache/
+build/
+**/build/
+bin/
+out/
+dist/
+
+# IDE / Editor configuration
+.idea/
+*.iml
+.vscode/
+.cursorrules
+
+# Agent internal tooling
+.agent/
+
+# Temporary and log files
+*.log
+*.tmp
