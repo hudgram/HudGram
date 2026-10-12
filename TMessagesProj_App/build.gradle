@@ -54,10 +54,11 @@ android {
         }
 
         release {
-            storeFile file("../hudgram_keystore")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            def keyStorePath = System.getenv("SIGNING_KEY_FILE") ?: (project.findProperty("RELEASE_KEY_STORE") ?: "../hudgram_keystore")
+            storeFile file(keyStorePath)
+            storePassword System.getenv("SIGNING_STORE_PASSWORD") ?: (project.findProperty("RELEASE_STORE_PASSWORD") ?: "")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: (project.findProperty("RELEASE_KEY_ALIAS") ?: "")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: (project.findProperty("RELEASE_KEY_PASSWORD") ?: "")
         }
     }
 
@@ -204,3 +205,21 @@ android {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+tasks.register('checkReleaseSigning') {
+    doLast {
+        def signConfig = android.signingConfigs.release
+        if (signConfig.storeFile == null || !signConfig.storeFile.exists()) {
+            throw new GradleException("Release keystore file not found at: " + (signConfig.storeFile ? signConfig.storeFile.absolutePath : "null") + ". Ensure SIGNING_KEY_FILE or RELEASE_KEY_STORE points to an existing keystore.")
+        }
+        if (!signConfig.storePassword || signConfig.storePassword == "placeholder" ||
+            !signConfig.keyAlias || signConfig.keyAlias == "hudgram_key_placeholder" ||
+            !signConfig.keyPassword || signConfig.keyPassword == "placeholder") {
+            throw new GradleException("Release signing credentials are missing or set to placeholder values. Please configure SIGNING_STORE_PASSWORD, SIGNING_KEY_ALIAS, and SIGNING_KEY_PASSWORD.")
+        }
+    }
+}
+
+tasks.matching { it.name in ["validateSigningAfatRelease", "packageAfatRelease", "signAfatReleaseBundle"] }.configureEach {
+    dependsOn checkReleaseSigning
+}

@@ -1,0 +1,167 @@
+name: Android CI/CD
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & Sign HudGram Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract Versions from Project Configurations
+        id: versions
+        run: |
+          python3 - << 'EOF'
+          import os, re
+
+          def find_val(pattern, filepath):
+              if not os.path.exists(filepath):
+                  return None
+              with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                  content = f.read()
+              m = re.search(pattern, content)
+              return m.group(1) if m else None
+
+          # 1. Java version from gradle-daemon-jvm.properties or AGP requirement
+          java_ver = find_val(r"toolchainVersion=(\d+)", "gradle/gradle-daemon-jvm.properties")
+          if not java_ver:
+              agp_ver = find_val(r"com\.android\.tools\.build:gradle:(\d+)", "build.gradle")
+              java_ver = "21" if (agp_ver and int(agp_ver) >= 8) else "17"
+
+          # 2. compileSdk, buildToolsVersion, ndkVersion, cmakeVersion from module build.gradle
+          compile_sdk = find_val(r"compileSdk(?:Version)?\s+(\d+)", "TMessagesProj_App/build.gradle") or find_val(r"compileSdk(?:Version)?\s+(\d+)", "TMessagesProj/build.gradle") or "36"
+          build_tools = find_val(r"buildToolsVersion\s+['\"]([0-9\.]+)['\"]", "TMessagesProj_App/build.gradle") or find_val(r"buildToolsVersion\s+['\"]([0-9\.]+)['\"]", "TMessagesProj/build.gradle") or "36.0.0"
+          ndk_ver = find_val(r"ndkVersion\s+['\"]([0-9\.]+)['\"]", "TMessagesProj_App/build.gradle") or find_val(r"ndkVersion\s+['\"]([0-9\.]+)['\"]", "TMessagesProj/build.gradle") or ""
+          cmake_ver = find_val(r"cmake\s*\{[\s\S]*?version\s+['\"]([0-9\.]+)['\"]", "TMessagesProj_App/build.gradle") or find_val(r"cmake\s*\{[\s\S]*?version\s+['\"]([0-9\.]+)['\"]", "TMessagesProj/build.gradle") or ""
+
+          github_output = os.environ.get("GITHUB_OUTPUT")
+          if github_output:
+              with open(github_output, "a") as f:
+                  f.write(f"java_version={java_ver}\n")
+                  f.write(f"compile_sdk={compile_sdk}\n")
+                  f.write(f"build_tools={build_tools}\n")
+                  f.write(f"ndk_version={ndk_ver}\n")
+                  f.write(f"cmake_version={cmake_ver}\n")
+
+          print("Dynamically extracted project versions:")
+          print(f"  Java: {java_ver}")
+          print(f"  Compile SDK: {compile_sdk}")
+          print(f"  Build Tools: {build_tools}")
+          print(f"  NDK: {ndk_ver}")
+          print(f"  CMake: {cmake_ver}")
+          EOF
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ steps.versions.outputs.java_version }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK Components (Platforms, Build Tools, NDK, CMake)
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          
+          PACKAGES="platforms;android-${{ steps.versions.outputs.compile_sdk }} build-tools;${{ steps.versions.outputs.build_tools }}"
+          
+          if [ -n "${{ steps.versions.outputs.cmake_version }}" ]; then
+            PACKAGES="$PACKAGES cmake;${{ steps.versions.outputs.cmake_version }}"
+          fi
+          
+          if [ -n "${{ steps.versions.outputs.ndk_version }}" ]; then
+            PACKAGES="$PACKAGES ndk;${{ steps.versions.outputs.ndk_version }}"
+          fi
+          
+          echo "Installing SDK components: $PACKAGES"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" $PACKAGES
+
+      - name: Prepare build environment
+        run: |
+          # Remove local machine-specific java.home path from gradle.properties if present
+          sed -i '/org\.gradle\.java\.home/d' gradle.properties
+          chmod +x gradlew
+
+      - name: Validate and decode signing keystore
+        env:
+          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_KEY_BASE64" ] || [ -z "$SIGNING_STORE_PASSWORD" ] || [ -z "$SIGNING_KEY_ALIAS" ] || [ -z "$SIGNING_KEY_PASSWORD" ]; then
+            echo "::error::One or more signing secrets are missing! Please configure SIGNING_KEY_BASE64, SIGNING_STORE_PASSWORD, SIGNING_KEY_ALIAS, and SIGNING_KEY_PASSWORD in repository Secrets."
+            exit 1
+          fi
+          echo "$SIGNING_KEY_BASE64" | base64 -d > "$RUNNER_TEMP/hudgram_keystore.jks"
+          if [ ! -s "$RUNNER_TEMP/hudgram_keystore.jks" ]; then
+            echo "::error::Failed to decode SIGNING_KEY_BASE64 or decoded keystore file is empty."
+            exit 1
+          fi
+
+      - name: Build signed Release APK and AAB
+        env:
+          SIGNING_KEY_FILE: ${{ runner.temp }}/hudgram_keystore.jks
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: |
+          ./gradlew :TMessagesProj_App:assembleAfatRelease :TMessagesProj_App:bundleAfatRelease --no-daemon
+
+      - name: Package artifacts to dist/
+        run: |
+          mkdir -p dist
+          APK_FILE=$(find TMessagesProj_App/build/outputs/apk/afat/release -name "*.apk" | head -n 1)
+          AAB_FILE=$(find TMessagesProj_App/build/outputs/bundle/afatRelease -name "*.aab" | head -n 1)
+
+          if [ -z "$APK_FILE" ] || [ ! -f "$APK_FILE" ]; then
+            echo "::error::Release APK file not found under TMessagesProj_App/build/outputs/apk/afat/release"
+            exit 1
+          fi
+
+          if [ -z "$AAB_FILE" ] || [ ! -f "$AAB_FILE" ]; then
+            echo "::error::Release AAB file not found under TMessagesProj_App/build/outputs/bundle/afatRelease"
+            exit 1
+          fi
+
+          cp "$APK_FILE" dist/HudGram.apk
+          cp "$AAB_FILE" dist/HudGram.aab
+
+          if [ ! -s dist/HudGram.apk ]; then
+            echo "::error::dist/HudGram.apk is missing or empty!"
+            exit 1
+          fi
+
+          if [ ! -s dist/HudGram.aab ]; then
+            echo "::error::dist/HudGram.aab is missing or empty!"
+            exit 1
+          fi
+
+          echo "Successfully packaged artifacts into dist/:"
+          ls -lh dist/
+
+      - name: Clean up temporary keystore
+        if: always()
+        run: |
+          rm -f "$RUNNER_TEMP/hudgram_keystore.jks"
+
+      - name: Upload HudGram Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HudGram
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
