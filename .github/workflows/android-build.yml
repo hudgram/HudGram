@@ -165,10 +165,18 @@ jobs:
         run: |
           rm -f "$RUNNER_TEMP/hudgram_keystore.jks"
 
-      - name: Upload HudGram Artifacts
+      - name: Upload HudGram APK
         uses: actions/upload-artifact@v4
         with:
-          name: HudGram
-          path: dist/
+          name: HudGram-APK
+          path: dist/HudGram.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload HudGram AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: HudGram-AAB
+          path: dist/HudGram.aab
           if-no-files-found: error
           retention-days: 14
