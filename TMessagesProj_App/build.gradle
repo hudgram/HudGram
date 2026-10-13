@@ -47,12 +47,16 @@ android {
 
     signingConfigs {
         debug {
-            def localKeystore = file("../hudgram_keystore")
-            if (localKeystore.exists()) {
-                storeFile localKeystore
-                storePassword RELEASE_STORE_PASSWORD
-                keyAlias RELEASE_KEY_ALIAS
-                keyPassword RELEASE_KEY_PASSWORD
+            def keyStorePath = System.getenv("SIGNING_KEY_FILE") ?: (project.findProperty("RELEASE_KEY_STORE") ?: "../hudgram_keystore")
+            def keyStoreFile = file(keyStorePath)
+            def storePass = System.getenv("SIGNING_STORE_PASSWORD") ?: project.findProperty("RELEASE_STORE_PASSWORD")
+            def kAlias = System.getenv("SIGNING_KEY_ALIAS") ?: project.findProperty("RELEASE_KEY_ALIAS")
+            def kPass = System.getenv("SIGNING_KEY_PASSWORD") ?: project.findProperty("RELEASE_KEY_PASSWORD")
+            if (keyStoreFile.exists() && storePass && kAlias && kPass) {
+                storeFile keyStoreFile
+                storePassword storePass
+                keyAlias kAlias
+                keyPassword kPass
             }
         }
 

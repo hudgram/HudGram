@@ -2,6 +2,7 @@ name: HudGram Release (Docker)
 
 'on':
   push:
+    branches: [ master ]
     tags:
       - 'v*'
       - 'release-*'
@@ -112,7 +113,7 @@ jobs:
               echo "Keystore read check and environment check passed!"
             '
 
-      - name: Build Signed Release APK and AAB inside Docker
+      - name: Build Signed Release and Beta APKs and AAB inside Docker
         env:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -131,7 +132,7 @@ jobs:
             -v "$RUNNER_TEMP/hudgram_keystore.jks:/tmp/hudgram_keystore.jks:ro" \
             -w /workspace \
             hudgram-builder:local \
-            ./gradlew :TMessagesProj_App:assembleAfatRelease :TMessagesProj_App:bundleAfatRelease --no-daemon
+            ./gradlew :TMessagesProj_App:assembleAfatRelease :TMessagesProj_App:assembleAfatDebug :TMessagesProj_App:bundleAfatRelease --no-daemon
 
       - name: Clean up temporary keystore
         if: always()
@@ -142,10 +143,17 @@ jobs:
         run: |
           mkdir -p dist
 
-          APK_FILE="TMessagesProj_App/build/outputs/apk/afat/release/app.apk"
-          if [ ! -f "$APK_FILE" ]; then
-            echo "::error::Release APK not found at expected path: $APK_FILE"
+          RELEASE_APK="TMessagesProj_App/build/outputs/apk/afat/release/app.apk"
+          if [ ! -f "$RELEASE_APK" ]; then
+            echo "::error::Release APK not found at expected path: $RELEASE_APK"
             ls -la TMessagesProj_App/build/outputs/apk/afat/release || true
+            exit 1
+          fi
+
+          BETA_APK="TMessagesProj_App/build/outputs/apk/afat/debug/app.apk"
+          if [ ! -f "$BETA_APK" ]; then
+            echo "::error::Beta APK not found at expected path: $BETA_APK"
+            ls -la TMessagesProj_App/build/outputs/apk/afat/debug || true
             exit 1
           fi
 
@@ -160,10 +168,11 @@ jobs:
           fi
           AAB_FILE="${AAB_FILES[0]}"
 
-          cp "$APK_FILE" dist/HudGram.apk
+          cp "$RELEASE_APK" dist/HudGram.apk
+          cp "$BETA_APK" dist/HudGram-Beta.apk
           cp "$AAB_FILE" dist/HudGram.aab
 
-          if [ ! -s dist/HudGram.apk ] || [ ! -s dist/HudGram.aab ]; then
+          if [ ! -s dist/HudGram.apk ] || [ ! -s dist/HudGram-Beta.apk ] || [ ! -s dist/HudGram.aab ]; then
             echo "::error::One or more output files in dist/ are empty!"
             exit 1
           fi
@@ -171,9 +180,9 @@ jobs:
           echo "Successfully packaged artifacts into dist/:"
           ls -lh dist/
 
-      - name: Verify APK Signature with apksigner (Inside Docker)
+      - name: Verify APK Signatures with apksigner (Inside Docker)
         run: |
-          echo "Verifying dist/HudGram.apk signature..."
+          echo "=== Verifying Release APK (dist/HudGram.apk) ==="
           docker run --rm \
             --user "$(id -u):$(id -g)" \
             -e HOME=/tmp \
@@ -182,18 +191,51 @@ jobs:
             hudgram-builder:local \
             apksigner verify --verbose dist/HudGram.apk
 
+          echo "=== Verifying Beta APK (dist/HudGram-Beta.apk) ==="
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/tmp \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            hudgram-builder:local \
+            apksigner verify --verbose dist/HudGram-Beta.apk
+
       - name: Generate Cryptographic SHA256 Checksums
         run: |
           cd dist
-          sha256sum HudGram.apk HudGram.aab > SHA256SUMS.txt
+          sha256sum HudGram.apk HudGram-Beta.apk HudGram.aab > SHA256SUMS.txt
           echo "Generated SHA256 Checksums:"
           cat SHA256SUMS.txt
 
-      - name: Upload Release Artifacts
+      - name: Upload Release APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.1
         with:
-          name: HudGram-${{ github.ref_name }}
-          path: dist/
+          name: HudGram-Release-APK
+          path: dist/HudGram.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Beta APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.1
+        with:
+          name: HudGram-Beta-APK
+          path: dist/HudGram-Beta.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Release AAB
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.1
+        with:
+          name: HudGram-Release-AAB
+          path: dist/HudGram.aab
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Checksums
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.1
+        with:
+          name: HudGram-Checksums
+          path: dist/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 30
 
@@ -206,17 +248,18 @@ jobs:
       contents: write
 
     steps:
-      - name: Download Release Artifacts
+      - name: Download All Release Artifacts
         uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
-          name: HudGram-${{ github.ref_name }}
           path: dist/
+          merge-multiple: true
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.2.1
         with:
           files: |
             dist/HudGram.apk
+            dist/HudGram-Beta.apk
             dist/HudGram.aab
             dist/SHA256SUMS.txt
           generate_release_notes: true
